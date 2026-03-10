@@ -45,11 +45,13 @@ export default function DashboardLayout({
     if (!hydrated) return;
 
     if (!isAuthenticated()) {
+      setAuthorized(false);
       router.replace("/login");
       return;
     }
 
     if (user && !isRouteAllowed(pathname, user.role)) {
+      setAuthorized(false);
       router.replace(ROLE_HOME[user.role]);
       return;
     }

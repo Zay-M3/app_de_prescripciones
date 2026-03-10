@@ -18,12 +18,6 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Dashboard",
-    href: "/admin",
-    icon: <FiHome size={20} />,
-    roles: ["admin"],
-  },
-  {
     label: "Mis Prescripciones",
     href: "/doctor/prescriptions",
     icon: <FiFileText size={20} />,

@@ -23,6 +23,7 @@ export default function LoginPage() {
   const setTokens = useAuthStore((s) => s.setTokens);
   const setUser = useAuthStore((s) => s.setUser);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const logout = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
 
   const [email, setEmail] = useState("");
@@ -56,7 +57,14 @@ export default function LoginPage() {
       const tokens = await loginService({ email: email.trim(), password });
       setTokens(tokens.access_token, tokens.refresh_token);
 
-      const profile = await getProfile();
+      let profile;
+      try {
+        profile = await getProfile();
+      } catch (err) {
+        logout();
+        throw err;
+      }
+
       const emailName = profile.email.split("@")[0];
       setUser({
         id: profile.sub,

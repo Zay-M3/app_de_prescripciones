@@ -119,7 +119,13 @@ export default function NewPrescriptionPage() {
 
     setSubmitting(true);
     try {
-      const patientId = selectedPatient!.patient!.id;
+      if (!selectedPatient?.patient) {
+        toast.error("Paciente seleccionado no es válido");
+        setSubmitting(false);
+        return;
+      }
+
+      const patientId = selectedPatient.patient.id;
 
       const validItems = items
         .filter((it) => it.name.trim() !== "")

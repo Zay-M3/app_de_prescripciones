@@ -67,8 +67,32 @@ export default function PatientPrescriptionsPage() {
   }, [page, status]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    let cacelled = false;
+
+    setLoading(true);
+    setError("");
+
+    getPatientPrescriptions({ status: status || undefined, page, limit: 10 })
+      .then((res) => {
+        if (!cacelled) setData(res);
+      })
+      .catch((err) => {
+        if (!cacelled)
+          setError(
+            err instanceof ApiError
+              ? err.message
+              : "Error al cargar prescripciones"
+          );
+      })
+      .finally(() => {
+        if (!cacelled) setLoading(false);
+      });
+
+    return () => {
+      cacelled = true;
+    };
+  }, [page, status]);
+
 
   const handleConsume = async (id: string) => {
     setConsumingId(id);
