@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  createdAt DateTime @default(now())
+
+  // Relaciones inversas (One-to-One)
+  doctor    Doctor?
+  patient   Patient?
+}
+
+enum Role {
+  admin
+  doctor
+  patient
+}
+
+model Doctor {
+  id            String         @id @default(cuid())
+  specialty     String?
+  
+  // Relación con User
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String         @unique
+
+  // Relación con Prescriptions
+  prescriptions Prescription[] @relation("AuthoredBy")
+}
+
+model Patient {
+  id            String         @id @default(cuid())
+  birthDate     DateTime?
+  
+  // Relación con User
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String         @unique
+
+  // Relación con Prescriptions
+  prescriptions Prescription[]
+}
+
+model Prescription {
+  id         String             @id @default(cuid())
+  code       String             @unique // Para QR o identificación
+  status     PrescriptionStatus @default(pending)
+  notes      String?
+  createdAt  DateTime           @default(now())
+  consumedAt DateTime?
+
+  // Relación con Patient
+  patient    Patient            @relation(fields: [patientId], references: [id])
+  patientId  String
+
+  // Relación con Doctor (Author)
+  author     Doctor             @relation("AuthoredBy", fields: [authorId], references: [id])
+  authorId   String
+
+  // Relación con Items
+  items      PrescriptionItem[]
+
+  @@index([status, createdAt])
+  @@index([patientId])
+  @@index([authorId])
+}
+
+enum PrescriptionStatus {
+  pending
+  consumed
+}
+
+model PrescriptionItem {
+  id             String       @id @default(cuid())
+  name           String
+  dosage         String?
+  quantity       Int?
+  instructions   String?
+
+  // Relación con la receta madre
+  prescription   Prescription @relation(fields: [prescriptionId], references: [id])
+  prescriptionId String
+}
