@@ -21,6 +21,7 @@ model User {
   name      String
   role      Role
   createdAt DateTime @default(now())
+  hashedRt  String?
 
   // Relaciones inversas (One-to-One)
   doctor    Doctor?

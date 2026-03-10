@@ -21,7 +21,15 @@ export class AuthController {
     @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
     refresh(@Req() req: any) {
-        return this.authService.refresh(req.user.refreshToken);
+        return this.authService.refresh(req.user.sub, req.user.refreshToken);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('logout')
+    @ApiBearerAuth()
+    @HttpCode(HttpStatus.OK)
+    logout(@Req() req: any) {
+        return this.authService.logout(req.user.sub);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -32,4 +40,3 @@ export class AuthController {
         return req.user;
     }
 }
-

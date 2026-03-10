@@ -31,6 +31,7 @@ export type UserMinAggregateOutputType = {
   name: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  hashedRt: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  hashedRt: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type UserCountAggregateOutputType = {
   name: number
   role: number
   createdAt: number
+  hashedRt: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type UserMinAggregateInputType = {
   name?: true
   role?: true
   createdAt?: true
+  hashedRt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type UserMaxAggregateInputType = {
   name?: true
   role?: true
   createdAt?: true
+  hashedRt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type UserCountAggregateInputType = {
   name?: true
   role?: true
   createdAt?: true
+  hashedRt?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type UserGroupByOutputType = {
   name: string
   role: $Enums.Role
   createdAt: Date
+  hashedRt: string | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  hashedRt?: Prisma.StringNullableFilter<"User"> | string | null
   doctor?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientNullableScalarRelationFilter, Prisma.PatientWhereInput> | null
 }
@@ -201,6 +209,7 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  hashedRt?: Prisma.SortOrderInput | Prisma.SortOrder
   doctor?: Prisma.DoctorOrderByWithRelationInput
   patient?: Prisma.PatientOrderByWithRelationInput
 }
@@ -215,6 +224,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  hashedRt?: Prisma.StringNullableFilter<"User"> | string | null
   doctor?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientNullableScalarRelationFilter, Prisma.PatientWhereInput> | null
 }, "id" | "email">
@@ -226,6 +236,7 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  hashedRt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -241,6 +252,7 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  hashedRt?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -250,6 +262,7 @@ export type UserCreateInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
@@ -261,6 +274,7 @@ export type UserUncheckedCreateInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
@@ -272,6 +286,7 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
@@ -283,6 +298,7 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -294,6 +310,7 @@ export type UserCreateManyInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -303,6 +320,7 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -312,6 +330,7 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -321,6 +340,7 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  hashedRt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -330,6 +350,7 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  hashedRt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -339,6 +360,7 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  hashedRt?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -356,6 +378,10 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type UserCreateNestedOneWithoutDoctorInput = {
@@ -393,6 +419,7 @@ export type UserCreateWithoutDoctorInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
 
@@ -403,6 +430,7 @@ export type UserUncheckedCreateWithoutDoctorInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -429,6 +457,7 @@ export type UserUpdateWithoutDoctorInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
 
@@ -439,6 +468,7 @@ export type UserUncheckedUpdateWithoutDoctorInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -449,6 +479,7 @@ export type UserCreateWithoutPatientInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
 }
 
@@ -459,6 +490,7 @@ export type UserUncheckedCreateWithoutPatientInput = {
   name: string
   role: $Enums.Role
   createdAt?: Date | string
+  hashedRt?: string | null
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -485,6 +517,7 @@ export type UserUpdateWithoutPatientInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
 }
 
@@ -495,6 +528,7 @@ export type UserUncheckedUpdateWithoutPatientInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashedRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -507,6 +541,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   role?: boolean
   createdAt?: boolean
+  hashedRt?: boolean
   doctor?: boolean | Prisma.User$doctorArgs<ExtArgs>
   patient?: boolean | Prisma.User$patientArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -518,6 +553,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   role?: boolean
   createdAt?: boolean
+  hashedRt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -527,6 +563,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   role?: boolean
   createdAt?: boolean
+  hashedRt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -536,9 +573,10 @@ export type UserSelectScalar = {
   name?: boolean
   role?: boolean
   createdAt?: boolean
+  hashedRt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "createdAt" | "hashedRt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctor?: boolean | Prisma.User$doctorArgs<ExtArgs>
   patient?: boolean | Prisma.User$patientArgs<ExtArgs>
@@ -559,6 +597,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     role: $Enums.Role
     createdAt: Date
+    hashedRt: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -990,6 +1029,7 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly hashedRt: Prisma.FieldRef<"User", 'String'>
 }
     
 

@@ -11,7 +11,7 @@ import { PrismaService } from './prisma/prisma.service';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
-      throttlers: [{ ttl: 60000, limit: 30 }],
+      throttlers: [{ ttl: 60000, limit: 10 }],
     }),
     AuthModule,
     UsersModule,

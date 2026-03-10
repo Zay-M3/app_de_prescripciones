@@ -823,7 +823,8 @@ export const UserScalarFieldEnum = {
   password: 'password',
   name: 'name',
   role: 'role',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  hashedRt: 'hashedRt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
