@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -15,7 +15,7 @@ export class AuthService {
     async login(email: string, password: string) {
         const user = await this.prisma.user.findUnique({
             where: { email }
-        })
+        });
 
         if (!user) {
             throw new UnauthorizedException('Invalid credentials');
@@ -28,53 +28,69 @@ export class AuthService {
         }
 
         const payload = {
-            sub : user.id,
+            sub: user.id,
             email: user.email,
-            role: user.role
+            role: user.role,
+        };
+
+        const tokens = await this.generateTokens(payload);
+        await this.updateRtHash(user.id, tokens.refreshToken);
+        return tokens;
+    }
+
+    async refresh(userId: string, refreshToken: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!user || !user.hashedRt) {
+            throw new ForbiddenException('Access denied');
         }
 
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-            refresh_token: await this.jwtService.signAsync(payload, {
+        const rtMatches = await bcrypt.compare(refreshToken, user.hashedRt);
+
+        if (!rtMatches) {
+            throw new ForbiddenException('Access denied');
+        }
+
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+        };
+
+        const tokens = await this.generateTokens(payload);
+        await this.updateRtHash(user.id, tokens.refreshToken);
+        return tokens;
+    }
+
+    async logout(userId: string) {
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { hashedRt: null },
+        });
+    }
+
+    private async generateTokens(payload: { sub: string; email: string; role: string }) {
+        const [accessToken, refreshToken] = await Promise.all([
+            this.jwtService.signAsync(payload),
+            this.jwtService.signAsync(payload, {
                 secret: process.env.JWT_REFRESH_SECRET,
                 expiresIn: process.env.JWT_REFRESH_TTL as StringValue,
-            })
-        }
+            }),
+        ]);
 
-        
-    }
-    async refresh(refreshToken: string) {
-        try {
-            const payload = await this.jwtService.verifyAsync(refreshToken, {
-                secret: process.env.JWT_REFRESH_SECRET,
-            });
-
-            const user = await this.prisma.user.findUnique({
-                where: { id: payload.sub },
-            });
-
-            if (!user) throw new UnauthorizedException('User not found');
-        
-            const newPayload = {
-                sub: user.id,
-                email: user.email,
-                role: user.role,
-            };
-
-            return {
-                access_token: await this.jwtService.signAsync(newPayload),
-                refresh_token: await this.jwtService.signAsync(newPayload, {
-                    secret: process.env.JWT_REFRESH_SECRET,
-                    expiresIn: process.env.JWT_REFRESH_TTL as StringValue,
-                }),
-            };
-        } catch {
-            throw new UnauthorizedException('Invalid refresh token');
-        }
+        return {
+            accessToken,
+            refreshToken,
+        };
     }
 
-        
+    private async updateRtHash(userId: string, rt: string) {
+        const hash = await bcrypt.hash(rt, 10);
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { hashedRt: hash },
+        });
+    }
 }
-
-    
-

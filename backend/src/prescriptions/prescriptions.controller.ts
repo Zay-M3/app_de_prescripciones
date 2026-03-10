@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -90,7 +90,7 @@ export class PrescriptionsController {
     return this.prescriptionsService.create(req.user.sub, dto);
   }
 
-  @Patch(':id/consume')
+  @Put(':id/consume')
   @Roles('patient')
   consume(@Param('id') id: string, @Req() req: any) {
     return this.prescriptionsService.consume(id, req.user.sub);

@@ -14,7 +14,6 @@ async function main() {
   await prisma.patient.deleteMany();
   await prisma.user.deleteMany();
 
-  // ── Admin ──
   const adminUser = await prisma.user.create({
     data: {
       email: 'admin@test.com',
@@ -24,7 +23,6 @@ async function main() {
     },
   });
 
-  // ── Doctores ──
   const doctorUser1 = await prisma.user.create({
     data: {
       email: 'dr@test.com',
@@ -51,7 +49,6 @@ async function main() {
     include: { doctor: true },
   });
 
-  // ── Pacientes ──
   const patientUser1 = await prisma.user.create({
     data: {
       email: 'patient@test.com',
@@ -78,7 +75,6 @@ async function main() {
     include: { patient: true },
   });
 
-  // ── Prescripciones (8 en total) ──
   const prescriptions = [
     {
       code: 'RX-2026-001',
@@ -180,6 +176,9 @@ async function main() {
       },
     });
   }
+
+  // Console log para verificar que los datos se han insertado correctamente
+  console.log('Seed completado exitosamente');
 }
 
 main()

@@ -312,10 +312,6 @@ export type DoctorUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorUpdateToOneWithWhereWithoutUserInput, Prisma.DoctorUpdateWithoutUserInput>, Prisma.DoctorUncheckedUpdateWithoutUserInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type DoctorCreateNestedOneWithoutPrescriptionsInput = {
   create?: Prisma.XOR<Prisma.DoctorCreateWithoutPrescriptionsInput, Prisma.DoctorUncheckedCreateWithoutPrescriptionsInput>
   connectOrCreate?: Prisma.DoctorCreateOrConnectWithoutPrescriptionsInput

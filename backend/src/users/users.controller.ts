@@ -15,8 +15,21 @@ export class UsersController {
   @Get()
   @Roles('admin', 'doctor')
   @ApiQuery({ name: 'role', required: false, enum: ['admin', 'doctor', 'patient'] })
-  findAll(@Query('role') role?: string) {
-    return this.usersService.findAll(role);
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'query', required: false, type: String })
+  findAll(
+    @Query('role') role?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Query('query') query?: string,
+  ) {
+    return this.usersService.findAll({
+      role,
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
+      query,
+    });
   }
 
   @Get(':id')

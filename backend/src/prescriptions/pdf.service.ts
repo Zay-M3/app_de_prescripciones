@@ -117,14 +117,12 @@ export class PdfService {
       doc.fontSize(11).font('Helvetica').text('  Sin medicamentos');
     }
 
-    // ── QR Code ──
-    const frontendUrl = process.env.APP_ORIGIN;
+    const frontendUrl = process.env.FRONTEND_URL;
     const qrData = `${frontendUrl}/patient/prescription/${prescription.code}`;
     const qrImageData = await QRCode.toDataURL(qrData);
 
     doc.image(qrImageData, doc.page.width - 150, doc.y, { width: 100 });
 
-    // ── Footer ──
     doc.moveDown(10);
     doc
       .moveTo(50, doc.y)

@@ -7,19 +7,50 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(role?: string) {
-    return this.prisma.user.findMany({
-      where: role ? { role: role as any } : undefined,
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        role: true,
-        createdAt: true,
-        doctor: true,
-        patient: true,
+  async findAll(params: { role?: string; page?: number; limit?: number; query?: string }) {
+    const { role, page = 1, limit = 10, query } = params;
+
+    const where: any = {};
+
+    if (role) {
+      where.role = role as any;
+    }
+
+    if (query) {
+      where.OR = [
+        { email: { contains: query, mode: 'insensitive' } },
+        { name: { contains: query, mode: 'insensitive' } },
+      ];
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          createdAt: true,
+          doctor: true,
+          patient: true,
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 
   async findOne(id: string) {
