@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import type { StringValue } from 'ms';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +37,7 @@ export class AuthService {
             access_token: await this.jwtService.signAsync(payload),
             refresh_token: await this.jwtService.signAsync(payload, {
                 secret: process.env.JWT_REFRESH_SECRET,
-                expiresIn: '7d'
+                expiresIn: process.env.JWT_REFRESH_TTL as StringValue,
             })
         }
 
@@ -48,17 +49,23 @@ export class AuthService {
                 secret: process.env.JWT_REFRESH_SECRET,
             });
 
+            const user = await this.prisma.user.findUnique({
+                where: { id: payload.sub },
+            });
+
+            if (!user) throw new UnauthorizedException('User not found');
+        
             const newPayload = {
-                sub: payload.sub,
-                email: payload.email,
-                role: payload.role,
+                sub: user.id,
+                email: user.email,
+                role: user.role,
             };
 
             return {
                 access_token: await this.jwtService.signAsync(newPayload),
                 refresh_token: await this.jwtService.signAsync(newPayload, {
                     secret: process.env.JWT_REFRESH_SECRET,
-                    expiresIn: '7d',
+                    expiresIn: process.env.JWT_REFRESH_TTL as StringValue,
                 }),
             };
         } catch {

@@ -6,6 +6,8 @@ import { PassportModule } from '@nestjs/passport';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RtStrategy } from './strategies/rt.strategy';
+import type { StringValue } from 'ms';
+
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { RtStrategy } from './strategies/rt.strategy';
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: '15m' },
+        signOptions: { expiresIn: process.env.JWT_ACCESS_TTL as StringValue },
       }),
     }),
   ],

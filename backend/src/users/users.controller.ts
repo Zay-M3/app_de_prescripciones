@@ -13,7 +13,7 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  @Roles('admin')
+  @Roles('admin', 'doctor')
   @ApiQuery({ name: 'role', required: false, enum: ['admin', 'doctor', 'patient'] })
   findAll(@Query('role') role?: string) {
     return this.usersService.findAll(role);
