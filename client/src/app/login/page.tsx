@@ -57,7 +57,7 @@ export default function LoginPage() {
 
     try {
       const tokens = await loginService({ email: email.trim(), password });
-      setTokens(tokens.access_token, tokens.refresh_token);
+      setTokens(tokens.accessToken, tokens.refreshToken);
 
       let profile;
       try {
@@ -67,11 +67,10 @@ export default function LoginPage() {
         throw err;
       }
 
-      const emailName = profile.email.split("@")[0];
       setUser({
         id: profile.sub,
         email: profile.email,
-        name: emailName,
+        name: profile.name,
         role: profile.role,
       });
 

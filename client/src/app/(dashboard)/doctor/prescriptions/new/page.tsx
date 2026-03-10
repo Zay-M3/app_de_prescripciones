@@ -47,7 +47,7 @@ export default function NewPrescriptionPage() {
   useEffect(() => {
     setPatientsLoading(true);
     getUsers({ role: "patient" })
-      .then((users) => setPatients(users))
+      .then((res) => setPatients(res.data))
       .catch(() => toast.error("Error al cargar pacientes"))
       .finally(() => setPatientsLoading(false));
   }, []);

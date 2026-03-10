@@ -17,3 +17,7 @@ export function refreshTokens() {
 export function getProfile() {
   return apiGet<JwtPayload>("/auth/profile");
 }
+
+export function logoutFromServer() {
+  return apiPost<void>("/auth/logout");
+}

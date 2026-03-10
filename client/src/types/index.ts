@@ -3,13 +3,14 @@ export type Role = "admin" | "doctor" | "patient";
 export type PrescriptionStatus = "pending" | "consumed";
 
 export interface AuthTokens {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface JwtPayload {
   sub: string;
   email: string;
+  name: string;
   role: Role;
   iat: number;
   exp: number;

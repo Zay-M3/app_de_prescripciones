@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   FiUsers,
   FiUserCheck,
@@ -8,6 +9,7 @@ import {
   FiActivity,
   FiLoader,
   FiAlertCircle,
+  FiFilter,
 } from "react-icons/fi";
 import { getMetrics } from "@/lib/services/admin";
 import { ApiError } from "@/lib/api";
@@ -29,16 +31,33 @@ import {
 const PIE_COLORS = ["#eab308", "#22c55e"];
 
 export default function AdminDashboardPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [metrics, setMetrics] = useState<AdminMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const from = searchParams.get("from") || "";
+  const to = searchParams.get("to") || "";
+
+  const updateQuery = useCallback(
+    (params: Record<string, string>) => {
+      const sp = new URLSearchParams(searchParams.toString());
+      for (const [key, val] of Object.entries(params)) {
+        if (val) sp.set(key, val);
+        else sp.delete(key);
+      }
+      router.push(`?${sp.toString()}`);
+    },
+    [searchParams, router]
+  );
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError("");
 
-    getMetrics()
+    getMetrics({ from: from || undefined, to: to || undefined })
       .then((data) => {
         if (!cancelled) setMetrics(data);
       })
@@ -57,7 +76,7 @@ export default function AdminDashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [from, to]);
 
   if (loading) {
     return (
@@ -136,6 +155,28 @@ export default function AdminDashboardPage() {
         <p className="text-sm text-muted-foreground">
           Metricas y resumen del sistema
         </p>
+      </div>
+
+      <div className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-card p-4">
+        <FiFilter className="mb-2 text-muted-foreground" size={16} />
+        <div>
+          <label className="mb-1 block text-xs font-medium text-muted-foreground">Desde</label>
+          <input
+            type="date"
+            value={from}
+            onChange={(e) => updateQuery({ from: e.target.value })}
+            className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-muted-foreground">Hasta</label>
+          <input
+            type="date"
+            value={to}
+            onChange={(e) => updateQuery({ to: e.target.value })}
+            className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
