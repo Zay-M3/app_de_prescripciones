@@ -36,7 +36,7 @@ export default function DashboardLayout({
   const hydrated = useHydration();
 
   const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
+  const serverLogout = useAuthStore((s) => s.serverLogout);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const [authorized, setAuthorized] = useState(false);
@@ -67,8 +67,8 @@ export default function DashboardLayout({
     );
   }
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await serverLogout();
     router.replace("/login");
   };
 

@@ -1,7 +1,7 @@
 import {
   apiGet,
   apiPost,
-  apiPatch,
+  apiPut,
   apiDelete,
   apiFetchBlob,
 } from "@/lib/api";
@@ -76,7 +76,7 @@ export function createPrescription(payload: CreatePrescriptionPayload) {
 }
 
 export function consumePrescription(id: string) {
-  return apiPatch<Prescription>(`/prescriptions/${id}/consume`);
+  return apiPut<Prescription>(`/prescriptions/${id}/consume`);
 }
 
 export function deletePrescription(id: string) {

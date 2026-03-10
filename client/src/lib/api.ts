@@ -40,7 +40,7 @@ async function refreshAccessToken(): Promise<boolean> {
     }
 
     const data = await res.json();
-    setTokens(data.access_token, data.refresh_token);
+    setTokens(data.accessToken, data.refreshToken);
     return true;
   } catch {
     logout();
