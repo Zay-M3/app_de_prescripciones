@@ -106,7 +106,7 @@ export class PrescriptionsController {
   @Roles('admin', 'doctor', 'patient')
   async downloadPdf(@Param('id') id: string, @Res() res: Response) {
     const prescription = await this.prescriptionsService.findOne(id);
-    const doc = this.pdfService.generatePrescriptionPdf(prescription);
+    const doc = await this.pdfService.generatePrescriptionPdf(prescription);
 
     res.set({
       'Content-Type': 'application/pdf',

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const PDFDocument = require('pdfkit');
+import * as QRCode from 'qrcode';
 
 @Injectable()
 export class PdfService {
-  generatePrescriptionPdf(prescription: any): PDFKit.PDFDocument {
+  async generatePrescriptionPdf(prescription: any): Promise<PDFKit.PDFDocument> {
     const doc = new PDFDocument({ margin: 50 });
 
     // ── Header ──
@@ -116,8 +117,15 @@ export class PdfService {
       doc.fontSize(11).font('Helvetica').text('  Sin medicamentos');
     }
 
+    // ── QR Code ──
+    const frontendUrl = process.env.APP_ORIGIN;
+    const qrData = `${frontendUrl}/patient/prescription/${prescription.code}`;
+    const qrImageData = await QRCode.toDataURL(qrData);
+
+    doc.image(qrImageData, doc.page.width - 150, doc.y, { width: 100 });
+
     // ── Footer ──
-    doc.moveDown(2);
+    doc.moveDown(10);
     doc
       .moveTo(50, doc.y)
       .lineTo(doc.page.width - 50, doc.y)
