@@ -46,6 +46,8 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
+    if (loading) return;
+
     if (!email.trim() || !password.trim()) {
       setError("Completa todos los campos");
       return;
