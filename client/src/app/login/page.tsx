@@ -75,15 +75,15 @@ export default function LoginPage() {
         role: profile.role,
       });
 
-      toast.success("Sesion iniciada correctamente");
+      toast.success("Sesión iniciada correctamente");
       router.replace(ROLE_REDIRECTS[profile.role]);
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("Error de conexion. Verifica que el servidor este activo.");
+        setError("Error de conexión. Verifica que el servidor este activo.");
       }
-      toast.error("Error al iniciar sesion");
+      toast.error("Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-2xl font-bold text-foreground">MedPrescribe</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Inicia sesion para continuar
+            Inicia sesión para continuar
           </p>
         </div>
 
@@ -144,7 +144,7 @@ export default function LoginPage() {
               htmlFor="password"
               className="mb-1.5 block text-sm font-medium text-foreground"
             >
-              Contrasena
+              Contraseña
             </label>
             <div className="relative">
               <FiLock
@@ -172,7 +172,7 @@ export default function LoginPage() {
             {loading ? (
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
             ) : (
-              "Iniciar Sesion"
+              "Iniciar Sesión"
             )}
           </button>
         </form>
