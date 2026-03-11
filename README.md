@@ -8,7 +8,7 @@ Sistema de prescripciones medicas con soporte para tres roles: **Medico**, **Pac
 
 | Servicio | URL |
 |----------|-----|
-| Frontend | `[https://prescripciones-frontend-git-main-zay-m3s-projects.vercel.app/](https://prescripciones-frontend-hazel.vercel.app/login)` |
+| Frontend | `https://prescripciones-frontend-hazel.vercel.app/login` |
 | Backend / API | `https://appdeprescripciones-production.up.railway.app/` |
 | Swagger (documentacion API) | `https://appdeprescripciones-production.up.railway.app/api` |
 
