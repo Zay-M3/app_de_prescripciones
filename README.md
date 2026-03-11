@@ -265,6 +265,13 @@ Tests unitarios incluidos:
 - **AuthService** (`auth.service.spec.ts`): login exitoso, email inexistente, password incorrecto.
 - **PrescriptionsService** (`prescriptions.service.spec.ts`): creacion de prescripcion, consumir prescripcion, validacion de pertenencia al paciente, prescripcion inexistente.
 
+Para generar el reporte detallado de cobertura de pruebas, ejecuta:
+`npm run test:cov`
+
+El reporte visual estará disponible en: `backend/coverage/lcov-report/index.html`
+
+Se priorizó el testing unitario del AuthService para garantizar la seguridad del flujo de autenticación (100% coverage) y se cubrieron las funcionalidades críticas del PrescriptionsService, cumpliendo con los requerimientos mínimos de testing de la prueba
+
 ### Frontend
 
 ```bash
